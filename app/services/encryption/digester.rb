@@ -14,7 +14,7 @@ module Encryption
     end
 
     # Return a SHA256 Hexidecimal string based off of the
-    # data in the payload. If the payload is empty raise
+    # data in the payload. If the payload is empty raise.
     def call
       raise EmptyPayloadError.new if payload.empty?
       Digest::SHA256.hexdigest(message)
@@ -28,7 +28,7 @@ module Encryption
 
     # This will just return the payload[:message] for now,
     # but we can eventually generate unique digests based
-    # on additional data in the payload
+    # on additional data in the payload.
     #
     # Example:
     #
@@ -38,7 +38,7 @@ module Encryption
       payload.values.join('-')
     end
 
-    # Log the error and return
+    # Log the error and return nil
     def handle_error(e)
       Rails.logger.error("Error creating digest: #{e}")
       nil
