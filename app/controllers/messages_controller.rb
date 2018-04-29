@@ -1,19 +1,20 @@
 class MessagesController < ApplicationController
-  before_action :get_decoded_token, only: :show
+  before_action :get_message, only: :show
 
   def show
-    if @token
-      render json: { message: token }
+    if @message
+      render json: { message: @message.text }
     else
       head(:not_found)
     end
   end
 
   def create
-    token = Encryption::Encoder.call(message_params)
+    digest  = Encryption::Digester.call(message_params)
+    message = Message.new(text: message_params[:message], digest: digest)
 
-    if token
-      render json: { digest: token }
+    if message.save
+      render json: { digest: digest }
     else
       head(:bad_request)
     end
@@ -21,8 +22,8 @@ class MessagesController < ApplicationController
 
   private
 
-  def get_decoded_token
-    @token = Encryption::Validator.call(params[:token])
+  def get_message
+    @message = Message.find_by(digest: params[:digest])
   end
 
   def message_params
