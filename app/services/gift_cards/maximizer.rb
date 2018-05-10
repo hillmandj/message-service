@@ -5,6 +5,7 @@ module GiftCards
     end
 
     def initialize(prices, balance, capacity)
+      @memo = {}
       @prices = prices
       @balance = balance
       @capacity = capacity
@@ -16,24 +17,43 @@ module GiftCards
 
     private
 
-    attr_reader :prices, :balance, :capacity
+    attr_reader :memo, :prices, :balance, :capacity
+    attr_writer :memo
 
     def max(remaining_balance, remaining_capacity, pointer = prices.length - 1)
-      return 0 if remaining_balance.zero? || remaining_capacity.zero? || pointer < 0
+      # If we already have come across this combination, return memoized result.
+      # Particularly important if we have items with identical prices...
+      if memo.key?([remaining_balance, remaining_capacity, pointer])
+        return memo.fetch([remaining_balance, remaining_capacity, pointer])
+      end
 
+      # This is our recursive termination condition
+      if remaining_balance.zero? || remaining_capacity.zero? || pointer < 0
+        return 0
+      end
+
+      # This is our current price, because the list is sorted, we can select by index
       current_price = prices.values[pointer]
 
+      # If the current price is greater than the remaining balance, move on by reducing
+      # the pointer, and not altering the remaining_balance or remaining_capacity
       if current_price > remaining_balance
         result = max(remaining_balance, remaining_capacity, pointer - 1)
       else
-        temp1 = max(remaining_balance, remaining_capacity, pointer - 1)
+        # Check what it would be like to not select the item
+        unselected = max(remaining_balance, remaining_capacity, pointer - 1)
 
-        temp2 = current_price + max(
+        # Check what it would be like to actually select the item
+        selected = current_price + max(
           remaining_balance - current_price, remaining_capacity - 1, pointer - 1
         )
 
-        result = [temp1, temp2].max
+        # Pick between the two values
+        result = [unselected, selected].max
       end
+
+      # Store the result in our memo, using all parameters as the key
+      memo.store([remaining_balance, remaining_capacity, pointer], result)
 
       result
     end
