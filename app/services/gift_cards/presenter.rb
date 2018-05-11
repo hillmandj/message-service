@@ -1,5 +1,5 @@
 module GiftCards
-  class Formatter
+  class Presenter
     def self.call(items)
       new(items: items).call
     end
@@ -8,6 +8,9 @@ module GiftCards
       @items = items
     end
 
+    # This function just returns the error message if we have no items
+    # Otherwise, it will print out the formatted pair of items that we
+    # selected.
     def call
       if items.empty?
         error_message

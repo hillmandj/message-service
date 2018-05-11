@@ -1,5 +1,6 @@
 module GiftCards
   class Finder
+    # We are only handling the case for 2 people.
     MAXIMUM_CAPACITY = 2
 
     def self.call(prices, balance)
@@ -11,15 +12,13 @@ module GiftCards
       @balance = balance
     end
 
-    # This calls our Pairer after obtaining the maximum card value
-    # from our Maximizer class below. It returns a Hash of the best
-    # items we can choose for two people. If no such pair exists, it
-    # returns an empty Hash.
+    # This calls our ItemSelector after obtaining the maximum card value
+    # from our Maximizer class below. It returns a Hash of the best items
+    # we can choose for two people.
     #
-    # If we were able to handle more than 2 values, this class would
-    # not be called 'Pairer'
+    # If no such pair exists, it returns an empty Hash.
     def call
-      Pairer.call(prices, max_card_value)
+      ItemSelector.call(prices, max_card_value)
     end
 
     private
@@ -28,8 +27,8 @@ module GiftCards
 
     # This calls the Maximizer class which finds the best possible value
     # we can get from our gift card. It can handle any capacity, but we
-    # are only solving for a capacity of 2, since our Pairer class can only
-    # return 2 items.
+    # are only solving for a capacity of 2, since our ItemSelector class
+    # can only return 2 items.
     def max_card_value
       Maximizer.call(prices, balance, capacity)
     end

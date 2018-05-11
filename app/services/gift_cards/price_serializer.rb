@@ -9,6 +9,14 @@ module GiftCards
       @balance = balance
     end
 
+    # Read in all prices from a file, this expects each line in the file to be
+    # in the format: Name of Item, Price of Item
+    #
+    # We convert Price of Item to an integer.
+    #
+    # This also expects that the items are already by price in ascending order.
+    # This allows us to stop reading in lines once we have exceeded our gift card
+    # balance, since we will not need to evaluate those prices.
     def call
       {}.tap do |prices|
         File.foreach(file_path).each do |line|

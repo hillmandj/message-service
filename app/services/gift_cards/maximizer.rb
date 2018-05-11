@@ -21,14 +21,14 @@ module GiftCards
     attr_writer :memo
 
     def max(remaining_balance, remaining_capacity, pointer = prices.length - 1)
-      # If we already have come across this combination, return memoized result.
-      # Particularly important if we have items with identical prices...
+      # If we already have come across this combination, return memoized result
+      # This helps us if different items share the same price in our price list
       if memo.key?([remaining_balance, remaining_capacity, pointer])
         return memo.fetch([remaining_balance, remaining_capacity, pointer])
       end
 
       # This is our recursive termination condition
-      if remaining_balance.zero? || remaining_capacity.zero? || pointer < 0
+      if remaining_balance <= 0 || remaining_capacity.zero? || pointer < 0
         return 0
       end
 

@@ -1,5 +1,5 @@
 module GiftCards
-  class Pairer
+  class ItemSelector
     def self.call(prices, value)
       new(prices: prices, value: value).call
     end
