@@ -1,10 +1,10 @@
 module GiftCards
   class Maximizer
     def self.call(prices, balance, capacity)
-      new(prices, balance, capacity).call
+      new(prices: prices, balance: balance, capacity: capacity).call
     end
 
-    def initialize(prices, balance, capacity)
+    def initialize(prices:, balance:, capacity:)
       @memo = {}
       @prices = prices
       @balance = balance

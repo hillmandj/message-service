@@ -1,5 +1,7 @@
 module GiftCards
   class Presenter
+    ERROR_MESSAGE = 'Not possible'.freeze
+
     def self.call(items)
       new(items: items).call
     end
@@ -24,7 +26,7 @@ module GiftCards
     attr_reader :items
 
     def error_message
-      'Not possible'
+      ERROR_MESSAGE
     end
 
     def formatted_items
