@@ -1,11 +1,15 @@
 module GiftCards
   class Formatter
+    def self.call(items)
+      new(items: items).call
+    end
+
     def initialize(items:)
       @items = items
     end
 
     def call
-      if items.blank?
+      if items.empty?
         error_message
       else
         formatted_items

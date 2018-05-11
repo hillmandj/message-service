@@ -1,17 +1,12 @@
 module GiftCards
   class Finder
-    DEFAULT_PRICES = {
-      'Candy Bar' => 500,
-      'Paperback Book' => 700,
-      'Detergent' => 1000,
-      'Headphones' => 1400,
-      'Earmuffs' => 2000,
-      'Bluetooth Stereo' => 6000,
-    }
-
     MAXIMUM_CAPACITY = 2
 
-    def initialize(prices: DEFAULT_PRICES, balance:)
+    def self.call(prices, balance)
+      new(prices: prices, balance: balance).call
+    end
+
+    def initialize(prices:, balance:)
       @prices = prices
       @balance = balance
     end

@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require_relative '../app/services/gift_cards/finder.rb'
+require_relative '../app/services/gift_cards/formatter.rb'
+require_relative '../app/services/gift_cards/maximizer.rb'
+require_relative '../app/services/gift_cards/pairer.rb'
+require_relative '../app/services/gift_cards/price_serializer.rb'
+
+file_path, card_balance = ARGV[0], ARGV[1].to_i
+
+# Serialize our prices from the file into a ruby Hash
+prices = GiftCards::PriceSerializer.call(file_path, card_balance)
+# Get our result through our Finder
+result = GiftCards::Finder.call(prices, card_balance)
+# Get the string value for our result
+output = GiftCards::Formatter.call(result)
+
+puts output
